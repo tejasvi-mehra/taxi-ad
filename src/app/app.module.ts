@@ -4,6 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Camera } from '@ionic-native/camera';//import in app.module.ts
+import { ImagePicker } from '@ionic-native/image-picker';
 
 import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
@@ -48,6 +49,7 @@ timestampsInSnapshots: true
     SplashScreen,
     
     Camera,
+    ImagePicker,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

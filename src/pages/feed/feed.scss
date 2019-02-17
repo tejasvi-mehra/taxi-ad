@@ -16,5 +16,8 @@ page-feed {
     .border-right{
         border-right: 1px solid map-get($colors, light)
     }
+    .round-corners{
+        border-radius: 24px;
+    }
 
 }

@@ -25,6 +25,11 @@
         <ion-icon name="send"></ion-icon>
       </button>
   </ion-row>
+  <ion-row margin class="rowStyle" *ngIf="image">
+    <ion-card class="round-corners">
+      <img [src]="image" class="round-corners">
+    </ion-card>
+  </ion-row>
 
   <ion-refresher (ionRefresh)="refreshFeed($event)">
     <ion-refresher-content>
