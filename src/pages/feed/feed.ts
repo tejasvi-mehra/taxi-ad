@@ -23,65 +23,9 @@ export class FeedPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public loadingCtrl: LoadingController, 
     public toastCtrl: ToastController, private camera: Camera, private imagePicker: ImagePicker) {
-    this.getPosts();
   }
 
-  getPosts(){
-    this.posts=[]
-
-    let loading= this.loadingCtrl.create({
-      content: "Loading Feed..."
-    });
-
-    loading.present();
-
-    firebase.firestore().collection("posts").orderBy("created","desc").limit(this.pageSize).get().then( (docs) => {
-      docs.forEach( (doc)=>{
-        this.posts.push(doc);
-
-      })
-      loading.dismiss();
-      this.cursor= this.posts[this.posts.length -1]
-      console.log(this.posts)
-
-    }).catch( (err)=> {
-      console.log(err)
-    })
-
-  }
-
-  loadMorePosts(event){
-
-    firebase.firestore().collection("posts").orderBy("created","desc").startAfter(this.cursor).limit(this.pageSize).get().then( (docs) => {
-      docs.forEach( (doc)=>{
-        this.posts.push(doc);
-
-      })
-      console.log(this.posts)
-
-      if(docs.size < this.pageSize){
-        event.enable(false);
-        this.infiniteEvent = event;
-      }
-      else{
-        event.complete();
-        this.cursor= this.posts[this.posts.length -1];
-      }
-
-    }).catch( (err)=> {
-      console.log(err)
-    })
-  }
-
-  refreshFeed(event){
-
-    this.posts=[];
-    this.getPosts(); 
-    event.complete();
-    if(this.infiniteEvent){//Make sure infinteEvent!=NULL 
-    this.infiniteEvent.enable(true)}
-
-  }
+ 
 
   post()
   {
@@ -103,16 +47,8 @@ export class FeedPage {
         duration: 3000
       }).present();
      
-      this.getPosts()
-      }).catch((err) => {
-        console.log(err)
+      
       })
-  }
-
-  ago(time)
-  {
-    let difference= moment(time).diff(moment());
-    return (moment.duration(difference).humanize());
   }
 
   logout(){
@@ -146,7 +82,6 @@ export class FeedPage {
   }, (err) => { console.log('Error') });
   }
 
-
 launchCamera(){
   let options: CameraOptions = {
     quality: 100,
@@ -176,8 +111,7 @@ upload(name: string){
   }, function(){
     console.log("Upload Complete");
     uploadTask.snapshot.ref.getDownloadURL().then(function(url){
-      console.log(url);
-      
+      console.log(url);  
     })
     
   })
