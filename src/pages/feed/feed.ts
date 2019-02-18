@@ -20,7 +20,9 @@ export class FeedPage {
   cursor: any;//documentSnapshot- holds value of pageSizeth post
   infiniteEvent: any;
   image: string; 
-
+  startDate;
+  endDate;
+  
   constructor(public navCtrl: NavController, public navParams: NavParams,public loadingCtrl: LoadingController, 
     public toastCtrl: ToastController, private camera: Camera, private imagePicker: ImagePicker) {
   }
