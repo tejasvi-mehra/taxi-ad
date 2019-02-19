@@ -23,7 +23,7 @@ export class FeedPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public loadingCtrl: LoadingController, 
     public toastCtrl: ToastController, private camera: Camera, private imagePicker: ImagePicker) {
-    this.getPosts();
+//    this.getPosts();
   }
 
   getPosts(){
@@ -76,7 +76,7 @@ export class FeedPage {
   refreshFeed(event){
 
     this.posts=[];
-    this.getPosts(); 
+    // this.getPosts(); 
     event.complete();
     if(this.infiniteEvent){//Make sure infinteEvent!=NULL 
     this.infiniteEvent.enable(true)}
@@ -85,25 +85,22 @@ export class FeedPage {
 
   post()
   {
-    firebase.firestore().collection("posts").add({
-      text: this.text,
+    firebase.firestore().collection("file_data").add({
+      file_name: this.text,
       created: firebase.firestore.FieldValue.serverTimestamp(),
       owner: firebase.auth().currentUser.uid,
-      owner_name: firebase.auth().currentUser.displayName
+      owner_name: firebase.auth().currentUser.displayName,
+      location: 0
     }).then((doc) => {
       console.log(doc);
-
-      if(this.image){
-        this.upload(doc.id)
-      }
-
+      this.upload(doc.id);
       this.text="";
       let toast= this.toastCtrl.create({
-        message: "Your post has been created successfully",
+        message: "Your image has been uploaded",
         duration: 3000
       }).present();
      
-      this.getPosts()
+      // this.getPosts()
       }).catch((err) => {
         console.log(err)
       })
