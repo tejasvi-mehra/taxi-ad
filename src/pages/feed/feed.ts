@@ -20,8 +20,11 @@ export class FeedPage {
   cursor: any;//documentSnapshot- holds value of pageSizeth post
   infiniteEvent: any;
   image: string; 
-  startDate;
-  endDate;
+  startDate: string;
+  endDate: string;
+  location:number;
+  today: string = new Date().toISOString(); // minimum date = current date
+  maxDate: string = new Date(new Date().getFullYear(), new Date().getMonth() + 3, new Date().getDate()).toISOString(); // max date = 3 months from today
   
   constructor(public navCtrl: NavController, public navParams: NavParams,public loadingCtrl: LoadingController, 
     public toastCtrl: ToastController, private camera: Camera, private imagePicker: ImagePicker) {
@@ -31,21 +34,28 @@ export class FeedPage {
 
   post()
   {
-    firebase.firestore().collection("posts").add({
-      text: this.text,
+    console.log(this.location);
+    
+    firebase.firestore().collection("file_data").add({
+      file_name: this.text,
       created: firebase.firestore.FieldValue.serverTimestamp(),
       owner: firebase.auth().currentUser.uid,
-      owner_name: firebase.auth().currentUser.displayName
+      owner_name: firebase.auth().currentUser.displayName,
+      location: this.location,
+      startDate: this.startDate,
+      endDate: this.endDate
     }).then((doc) => {
       console.log(doc);
-
-      if(this.image){
-        this.upload(doc.id)
-      }
+      this.upload(doc.id)
 
       this.text="";
+      this.location=null;
+      this.image="";
+      this.startDate="";
+      this.endDate="";  
+
       let toast= this.toastCtrl.create({
-        message: "Your post has been created successfully",
+        message: "Your image has been uploaded",
         duration: 3000
       }).present();
      

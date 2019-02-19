@@ -20,54 +20,69 @@
       <ion-icon name="images"></ion-icon>
     </button>
 <!-- IDEALLY FILE NAME IS AUTOSET -->
-    <ion-input type="text" placeholder="Enter File Name" [(ngModel)]="text"></ion-input>
-    <button ion-button icon-only color="danger" clear (click)="post()">
-        <ion-icon name="send"></ion-icon>
-      </button>
+    <ion-input required type="text" placeholder="Enter File Name" [(ngModel)]="text"></ion-input>
   </ion-row>
 
-  <!-- IDEALLY WE SHOW A DEMO OF THE AD ON A CAB -->
+<!-- Extra button for upload -->
+    <!-- <button ion-button icon-only color="danger" clear (click)="post()">
+        <ion-icon name="send"></ion-icon>
+      </button> --> 
 
 
-  <ion-list>
+  
+  <ion-list required>
 
     <!-- IDEALLY THIS LOCATION LIST SHOULD BE LOADED FROM THE FIREBASE DB -->
     <!-- IDEALLY ATLEAST ONE LOCATION -->
-  
-    <ion-item>
+    
+    <ion-item required>
       <ion-label>Locations</ion-label>
-      <ion-select multiple="true" cancelText="Nah" okText="Okay!">
-        <ion-option value="Kennedy Town">Kennedy Town</ion-option>
-        <ion-option value="HKU">HKU</ion-option>
-        <ion-option value="SaiYingPun">Sai Ying Pun</ion-option>
+      <ion-select required [(ngModel)]="location" cancelText="Nah" okText="Okay!">
+      <!-- <ion-select multiple="true" cancelText="Nah" okText="Okay!"> -->
+        <ion-option value=0>Kennedy Town</ion-option>
+        <ion-option value=1>HKU</ion-option>
+        <ion-option value=2>Sai Ying Pun</ion-option>
       </ion-select>
     </ion-item>
-
+    
     <!-- IDEALLY THIS TIME LIST SHOULD HAVE MINIMUM OF CURRENT TIME -->
-    <ion-item>
+    <ion-item required>
       <ion-label>Start Date</ion-label>
       <ion-datetime 
+      required
       displayFormat=" YYYY/MMM/DD  HH:mm" 
       pickerFormat="DD-MMM-YYYY T   HH:mm" 
       minuteValues="00,5,10,15,20,25,30,35,40,45,50,55"
-      [(ngModel)]="startDate"></ion-datetime>
+      [(ngModel)]="startDate"
+      [min]="today"
+      [max]="maxDate"></ion-datetime>
     </ion-item>
-
+    
     <!-- IDEALLY THIS TIME LIST SHOULD HAVE MAX OF CURRENT TIME + 1 2 MONTHS? -->
-    <ion-item>
+    <ion-item required>
       <ion-label>End Date</ion-label>
       <ion-datetime 
+      required
       displayFormat=" YYYY/MMM/DD  HH:mm" 
       pickerFormat="DD-MMM-YYYY T   HH:mm" 
       minuteValues="00,5,10,15,20,25,30,35,40,45,50,55"
-      [(ngModel)]="endDate"></ion-datetime>
+      [(ngModel)]="endDate"
+      [min]="today"
+      [max]="maxDate"></ion-datetime>
     </ion-item>
 
     <!-- HAS TO CHECK IF ATLEAST 1 LOC & TIMES IS ENTERED BEFORE POST -->
 
   </ion-list>
+  <!-- IDEALLY WE SHOW A DEMO OF THE AD ON A CAB -->
 
-  <button padding ion-button block round outline color="dark" style="margin-top: 20px;"> PAY & SUBMIT </button>
+  <ion-row margin class="rowStyle" *ngIf="image">
+    <ion-card class="round-corners">
+      <img [src]="image" class="round-corners">
+    </ion-card>
+  </ion-row>
+  
+  <button padding ion-button block round outline color="dark" style="margin-top: 20px;" (click)="post()"> PAY & SUBMIT </button>
 
 
 </ion-content>
