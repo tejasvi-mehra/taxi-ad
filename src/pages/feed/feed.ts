@@ -6,7 +6,7 @@ import { isDifferent } from '@angular/core/src/render3/util';
 import { LoginPage } from '../login/login';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ImagePicker } from '@ionic-native/image-picker';
-
+import { Geolocation } from '@ionic-native/geolocation';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class FeedPage {
   maxDate: string = new Date(new Date().getFullYear(), new Date().getMonth() + 3, new Date().getDate()).toISOString(); // max date = 3 months from today
   
   constructor(public navCtrl: NavController, public navParams: NavParams,public loadingCtrl: LoadingController, 
-    public toastCtrl: ToastController, private camera: Camera, private imagePicker: ImagePicker) {
+    public toastCtrl: ToastController, private camera: Camera, private imagePicker: ImagePicker, private geolocation: Geolocation) {
   }
 
  
@@ -127,6 +127,21 @@ upload(name: string){
     })
     
   })
+}
+
+getlocation(){
+  console.log("location:");
+  
+      this.geolocation.getCurrentPosition().then((resp) => {
+      console.log("here");
+      
+        console.log(resp.coords.latitude + " " + resp.coords.longitude);
+       }).catch((error) => {
+         console.log('Error getting location', error);
+       });
+
+  // console.log("Function still running");
+  
 }
 
 }
