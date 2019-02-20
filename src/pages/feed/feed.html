@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar color="danger">
-    <ion-title>Your Feed</ion-title>
+    <ion-title>DigiRoof</ion-title>
 
     <ion-buttons end>
 
@@ -14,55 +14,82 @@
 
 </ion-header>
 
-
 <ion-content>
   <ion-row class="rowStyle" margin>
     <button ion-button icon-only color="danger" clear (click)="addPhoto()">
       <ion-icon name="images"></ion-icon>
     </button>
-    <ion-input type="text" placeholder="Say something..." [(ngModel)]="text"></ion-input>
-    <button ion-button icon-only color="danger" clear (click)="post()">
-        <ion-icon name="send"></ion-icon>
-      </button>
+<!-- IDEALLY FILE NAME IS AUTOSET -->
+    <ion-input required type="text" placeholder="Enter File Name" [(ngModel)]="text"></ion-input>
   </ion-row>
+
+<!-- Extra button for upload -->
+    <!-- <button ion-button icon-only color="danger" clear (click)="post()">
+        <ion-icon name="send"></ion-icon>
+      </button> --> 
+
+
+  
+  <ion-list required>
+
+    <!-- IDEALLY THIS LOCATION LIST SHOULD BE LOADED FROM THE FIREBASE DB -->
+    <!-- IDEALLY ATLEAST ONE LOCATION -->
+    
+    <!-- <ion-item required>
+      <ion-label>Locations</ion-label>
+      <ion-select required [(ngModel)]="location" cancelText="Nah" okText="Okay!">
+        <ion-option value=0>Kennedy Town</ion-option>
+        <ion-option value=1>HKU</ion-option>
+        <ion-option value=2>Sai Ying Pun</ion-option>
+      </ion-select>
+    </ion-item> -->
+
+    <ion-item>
+      <ion-label>Locations</ion-label>
+      <ion-select required [(ngModel)]="location" cancelText="Nah" okText="Okay!">
+        <ion-option *ngFor="let location of all_locations" [value]="location.value"> {{ location.name }} </ion-option>
+      </ion-select>  
+    </ion-item>
+    
+    <!-- IDEALLY THIS TIME LIST SHOULD HAVE MINIMUM OF CURRENT TIME -->
+    <ion-item required>
+      <ion-label>Start Date</ion-label>
+      <ion-datetime 
+      required
+      displayFormat=" YYYY/MMM/DD  HH:mm" 
+      pickerFormat="DD-MMM-YYYY T   HH:mm" 
+      minuteValues="00,5,10,15,20,25,30,35,40,45,50,55"
+      [(ngModel)]="startDate"
+      [min]="today"
+      [max]="maxDate"></ion-datetime>
+    </ion-item>
+    
+    <!-- IDEALLY THIS TIME LIST SHOULD HAVE MAX OF CURRENT TIME + 1 2 MONTHS? -->
+    <ion-item required>
+      <ion-label>End Date</ion-label>
+      <ion-datetime 
+      required
+      displayFormat=" YYYY/MMM/DD  HH:mm" 
+      pickerFormat="DD-MMM-YYYY T   HH:mm" 
+      minuteValues="00,5,10,15,20,25,30,35,40,45,50,55"
+      [(ngModel)]="endDate"
+      [min]="startDate"
+      [max]="maxDate"></ion-datetime>
+    </ion-item>
+
+    <!-- HAS TO CHECK IF ATLEAST 1 LOC & TIMES IS ENTERED BEFORE POST -->
+
+  </ion-list>
+  <!-- IDEALLY WE SHOW A DEMO OF THE AD ON A CAB -->
+
   <ion-row margin class="rowStyle" *ngIf="image">
     <ion-card class="round-corners">
       <img [src]="image" class="round-corners">
     </ion-card>
   </ion-row>
-
-  <ion-refresher (ionRefresh)="refreshFeed($event)">
-    <ion-refresher-content>
-
-    </ion-refresher-content>
-
-  </ion-refresher>
+  
+  <button padding ion-button block round outline color="dark" style="margin-top: 20px;" (click)="post()"> PAY & SUBMIT </button>
+  <button padding ion-button block round outline color="dark" style="margin-top: 20px;" (click)="getlocation()"> My location </button>
 
 
-
-  <ion-card  *ngFor="let post of posts"> 
-    <ion-item-divider color="danger">{{ post.data().owner_name }} Says</ion-item-divider>
-    <ion-item text-wrap>
-        {{ post.data().text }}
-    </ion-item>
-    <ion-row class="bottom-bar">
-      <ion-col><button ion-button block icon-left clear small color="danger" class="border-right">
-        <ion-icon name="thumbs-up"></ion-icon>
-        <small>12 likes</small>
-      </button></ion-col>
-      <ion-col><button ion-button block icon-left clear small color="danger" class="border-right">
-          <ion-icon name="text"></ion-icon>
-          <small>12 comments</small>
-        </button></ion-col>
-      <ion-col><button ion-button block icon-left clear small color="danger">
-          <small>{{ ago(post.data().created.toDate()) }} ago</small>
-        </button></ion-col>
-    </ion-row>
-  </ion-card>
- 
-<ion-infinite-scroll (ionInfinite)="loadMorePosts($event)">
-  <ion-infinite-scroll-content>
-
-  </ion-infinite-scroll-content>
-</ion-infinite-scroll>
 </ion-content>

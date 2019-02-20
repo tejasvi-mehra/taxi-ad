@@ -29,7 +29,8 @@ export class LoginPage {
 
  
   firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-  .then( (user) => {console.log(user)
+  .then( (user) => {
+    console.log(user)
   this.toastCtrl.create({
 
   	message: "Welcome " + user.user.displayName,

@@ -6,7 +6,10 @@ import { isDifferent } from '@angular/core/src/render3/util';
 import { LoginPage } from '../login/login';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ImagePicker } from '@ionic-native/image-picker';
-
+import { Geolocation } from '@ionic-native/geolocation';
+import geolib from 'geolib';
+import { resolve } from 'url';
+import { log } from 'util';
 
 
 @Component({
@@ -20,99 +23,63 @@ export class FeedPage {
   cursor: any;//documentSnapshot- holds value of pageSizeth post
   infiniteEvent: any;
   image: string; 
-
+  all_locations: any;
+  endDate: string;
+  location:number;
+  today: string = new Date().toISOString(); // minimum date = current date
+  startDate: string = new Date().toISOString();
+  min_end_date: string = this.startDate;
+  maxDate: string = new Date(new Date().getFullYear(), new Date().getMonth() + 3, new Date().getDate()).toISOString(); // max date = 3 months from today
+  
   constructor(public navCtrl: NavController, public navParams: NavParams,public loadingCtrl: LoadingController, 
-    public toastCtrl: ToastController, private camera: Camera, private imagePicker: ImagePicker) {
-    this.getPosts();
+    public toastCtrl: ToastController, private camera: Camera, private imagePicker: ImagePicker, private geolocation: Geolocation) {
+      this.get_all_locations().then(()=>{
+        console.log("Locations loaded");        
+      });      
   }
 
-  getPosts(){
-    this.posts=[]
-
-    let loading= this.loadingCtrl.create({
-      content: "Loading Feed..."
+  // Set up all locations from DB
+  async get_all_locations(){
+    const snapshot = await firebase.firestore().collection('locations').get()
+    let value = snapshot.docs.map(doc => doc.data());
+    value.forEach((val) => {
+      val.latitude = val.point.latitude;
+      val.longitude = val.point.longitude;
     });
-
-    loading.present();
-
-    firebase.firestore().collection("posts").orderBy("created","desc").limit(this.pageSize).get().then( (docs) => {
-      docs.forEach( (doc)=>{
-        this.posts.push(doc);
-
-      })
-      loading.dismiss();
-      this.cursor= this.posts[this.posts.length -1]
-      console.log(this.posts)
-
-    }).catch( (err)=> {
-      console.log(err)
-    })
-
-  }
-
-  loadMorePosts(event){
-
-    firebase.firestore().collection("posts").orderBy("created","desc").startAfter(this.cursor).limit(this.pageSize).get().then( (docs) => {
-      docs.forEach( (doc)=>{
-        this.posts.push(doc);
-
-      })
-      console.log(this.posts)
-
-      if(docs.size < this.pageSize){
-        event.enable(false);
-        this.infiniteEvent = event;
-      }
-      else{
-        event.complete();
-        this.cursor= this.posts[this.posts.length -1];
-      }
-
-    }).catch( (err)=> {
-      console.log(err)
-    })
-  }
-
-  refreshFeed(event){
-
-    this.posts=[];
-    this.getPosts(); 
-    event.complete();
-    if(this.infiniteEvent){//Make sure infinteEvent!=NULL 
-    this.infiniteEvent.enable(true)}
-
-  }
+    this.all_locations = value;
+    console.log(this.all_locations);
+    
+ }
 
   post()
   {
-    firebase.firestore().collection("posts").add({
-      text: this.text,
+    console.log(this.location);
+    
+    firebase.firestore().collection("file_data").add({
+      file_name: this.text,
       created: firebase.firestore.FieldValue.serverTimestamp(),
       owner: firebase.auth().currentUser.uid,
-      owner_name: firebase.auth().currentUser.displayName
+      owner_name: firebase.auth().currentUser.displayName,
+      location: this.location,
+      startDate: this.startDate,
+      endDate: this.endDate
     }).then((doc) => {
       console.log(doc);
-
-      if(this.image){
-        this.upload(doc.id)
-      }
+      this.upload(doc.id)
 
       this.text="";
+      this.location=null;
+      this.image="";
+      this.startDate="";
+      this.endDate="";  
+
       let toast= this.toastCtrl.create({
-        message: "Your post has been created successfully",
+        message: "Your image has been uploaded",
         duration: 3000
       }).present();
      
-      this.getPosts()
-      }).catch((err) => {
-        console.log(err)
+      
       })
-  }
-
-  ago(time)
-  {
-    let difference= moment(time).diff(moment());
-    return (moment.duration(difference).humanize());
   }
 
   logout(){
@@ -146,7 +113,6 @@ export class FeedPage {
   }, (err) => { console.log('Error') });
   }
 
-
 launchCamera(){
   let options: CameraOptions = {
     quality: 100,
@@ -176,11 +142,65 @@ upload(name: string){
   }, function(){
     console.log("Upload Complete");
     uploadTask.snapshot.ref.getDownloadURL().then(function(url){
-      console.log(url);
-      
+      console.log(url);  
     })
     
   })
+}
+
+// Get current position in promise
+getlocation_wrapper(){
+  let options = {
+    enableHighAccuracy: true,
+  timeout: 5000,
+    maximumAge: 0
+  };
+  return new Promise((res,rej) => {
+    navigator.geolocation.getCurrentPosition(res,rej,options);
+  });
+}
+
+
+getlocation(){
+      // Test cases
+      // let ktown_lat = 22.2812;
+      // let ktown_lon = 114.1289;
+      // let hku_lat = 22.284;
+      // let hku_lon = 114.135;
+      // let hku_lat: number = 22.2830;
+      // let hku_lon = 114.1371;
+      
+  this.getlocation_wrapper().then((resp:any)=>{
+    console.log(typeof this.all_locations[0].point);
+    let latitude = resp.coords.latitude;
+    let longitude = resp.coords.longitude;
+    let result: any;
+    result = geolib.findNearest({ latitude: latitude, longitude: longitude }, this.all_locations);
+    console.log("Closest to:");        
+    console.log(this.all_locations[result.key]);
+  })  
+}
+
+// Calculate closest distance (not needed if using geolib)
+calcCrow(lat1:number, lon1:number, lat2:number, lon2:number) 
+{
+  let R = 6371; // km
+  let dLat = this.toRad(lat2-lat1);
+  let dLon = this.toRad(lon2-lon1);
+  let lat1_radians = this.toRad(lat1);
+  let lat2_radians = this.toRad(lat2);
+
+  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1_radians) * Math.cos(lat2_radians); 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  var d = R * c;
+  return d;
+}
+
+// Converts numeric degrees to radians
+toRad(Value:number) 
+{
+    return Value * Math.PI / 180;
 }
 
 }
