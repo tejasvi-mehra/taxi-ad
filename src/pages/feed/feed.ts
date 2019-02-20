@@ -23,11 +23,12 @@ export class FeedPage {
   cursor: any;//documentSnapshot- holds value of pageSizeth post
   infiniteEvent: any;
   image: string; 
-  startDate: string;
   all_locations: any;
   endDate: string;
   location:number;
   today: string = new Date().toISOString(); // minimum date = current date
+  startDate: string = new Date().toISOString();
+  min_end_date: string = this.startDate;
   maxDate: string = new Date(new Date().getFullYear(), new Date().getMonth() + 3, new Date().getDate()).toISOString(); // max date = 3 months from today
   
   constructor(public navCtrl: NavController, public navParams: NavParams,public loadingCtrl: LoadingController, 
