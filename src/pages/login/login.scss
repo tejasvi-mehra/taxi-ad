@@ -4,27 +4,34 @@ ion-content{
 	
 
 	.scroll-content{
-		background-color: #000000
+	background-image: url("…/../../../assets/imgs/bckground.png") ;
+	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
 	}	
 }
 
-.item{
-	background-color: #000000
+ion-input{
+	text-align: center;
 }
 
-.logo{
-	
-
-	font-size: 25vh;
-	margin-top: 50px;
-	margin-bottom: 30px;
-
+.nametop{
+	font-family: Monoton;
+	margin-top: 6rem;
+	margin-bottom:2rem;
+	font-size: 2em;
 }
-
 h1,h6 {
 	
 	font-size: 1em;
-	color: white;
+	}
+
+.icon{
+	display: flex!important;
+	align-content: center!important;
+	align-items: center!important;
+
 }
 
 .row-style{
@@ -32,10 +39,6 @@ h1,h6 {
 	padding-left:15px;
 	border-radius: 30px;
 	margin-bottom: 10px;
-}
-.icon{
-	margin-top: 13px;
-	margin-right: 10px;
 }
 
 }
