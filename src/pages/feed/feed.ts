@@ -7,6 +7,9 @@ import { LoginPage } from '../login/login';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Geolocation } from '@ionic-native/geolocation';
+import geolib from 'geolib';
+import { resolve } from 'url';
+import { log } from 'util';
 
 
 @Component({
@@ -21,6 +24,7 @@ export class FeedPage {
   infiniteEvent: any;
   image: string; 
   startDate: string;
+  all_locations: any;
   endDate: string;
   location:number;
   today: string = new Date().toISOString(); // minimum date = current date
@@ -28,9 +32,23 @@ export class FeedPage {
   
   constructor(public navCtrl: NavController, public navParams: NavParams,public loadingCtrl: LoadingController, 
     public toastCtrl: ToastController, private camera: Camera, private imagePicker: ImagePicker, private geolocation: Geolocation) {
+      this.get_all_locations().then(()=>{
+        console.log("Locations loaded");        
+      });      
   }
 
- 
+  // Set up all locations from DB
+  async get_all_locations(){
+    const snapshot = await firebase.firestore().collection('locations').get()
+    let value = snapshot.docs.map(doc => doc.data());
+    value.forEach((val) => {
+      val.latitude = val.point.latitude;
+      val.longitude = val.point.longitude;
+    });
+    this.all_locations = value;
+    console.log(this.all_locations);
+    
+ }
 
   post()
   {
@@ -129,19 +147,59 @@ upload(name: string){
   })
 }
 
-getlocation(){
-  console.log("location:");
-  
-      this.geolocation.getCurrentPosition().then((resp) => {
-      console.log("here");
-      
-        console.log(resp.coords.latitude + " " + resp.coords.longitude);
-       }).catch((error) => {
-         console.log('Error getting location', error);
-       });
+// Get current position in promise
+getlocation_wrapper(){
+  let options = {
+    enableHighAccuracy: true,
+  timeout: 5000,
+    maximumAge: 0
+  };
+  return new Promise((res,rej) => {
+    navigator.geolocation.getCurrentPosition(res,rej,options);
+  });
+}
 
-  // console.log("Function still running");
-  
+
+getlocation(){
+      // Test cases
+      // let ktown_lat = 22.2812;
+      // let ktown_lon = 114.1289;
+      // let hku_lat = 22.284;
+      // let hku_lon = 114.135;
+      // let hku_lat: number = 22.2830;
+      // let hku_lon = 114.1371;
+      
+  this.getlocation_wrapper().then((resp:any)=>{
+    console.log(typeof this.all_locations[0].point);
+    let latitude = resp.coords.latitude;
+    let longitude = resp.coords.longitude;
+    let result: any;
+    result = geolib.findNearest({ latitude: latitude, longitude: longitude }, this.all_locations);
+    console.log("Closest to:");        
+    console.log(this.all_locations[result.key]);
+  })  
+}
+
+// Calculate closest distance (not needed if using geolib)
+calcCrow(lat1:number, lon1:number, lat2:number, lon2:number) 
+{
+  let R = 6371; // km
+  let dLat = this.toRad(lat2-lat1);
+  let dLon = this.toRad(lon2-lon1);
+  let lat1_radians = this.toRad(lat1);
+  let lat2_radians = this.toRad(lat2);
+
+  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1_radians) * Math.cos(lat2_radians); 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  var d = R * c;
+  return d;
+}
+
+// Converts numeric degrees to radians
+toRad(Value:number) 
+{
+    return Value * Math.PI / 180;
 }
 
 }

@@ -35,14 +35,20 @@
     <!-- IDEALLY THIS LOCATION LIST SHOULD BE LOADED FROM THE FIREBASE DB -->
     <!-- IDEALLY ATLEAST ONE LOCATION -->
     
-    <ion-item required>
+    <!-- <ion-item required>
       <ion-label>Locations</ion-label>
       <ion-select required [(ngModel)]="location" cancelText="Nah" okText="Okay!">
-      <!-- <ion-select multiple="true" cancelText="Nah" okText="Okay!"> -->
         <ion-option value=0>Kennedy Town</ion-option>
         <ion-option value=1>HKU</ion-option>
         <ion-option value=2>Sai Ying Pun</ion-option>
       </ion-select>
+    </ion-item> -->
+
+    <ion-item>
+      <ion-label>Locations</ion-label>
+      <ion-select required [(ngModel)]="location" cancelText="Nah" okText="Okay!">
+        <ion-option *ngFor="let location of all_locations" [value]="location.value"> {{ location.name }} </ion-option>
+      </ion-select>  
     </ion-item>
     
     <!-- IDEALLY THIS TIME LIST SHOULD HAVE MINIMUM OF CURRENT TIME -->
