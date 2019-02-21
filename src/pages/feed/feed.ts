@@ -157,34 +157,34 @@ launchCamera(){
 //   })
 // }
 
-// upload_new(name: string){
-//   return new Promise((resolve, reject) => {
+upload_new(name: string){
+  return new Promise((resolve, reject) => {
   
-//     let ref = firebase.storage().ref("postImages/" + name);
-//     let uploadTask = ref.putString(this.image.split(',')[1], "base64");
+    let ref = firebase.storage().ref("postImages/" + name);
+    let uploadTask = ref.putString(this.image.split(',')[1], "base64");
 
-//     uploadTask.on("state_changed", function(taskSnapshot){
-//       console.log(taskSnapshot);
-//     }, function(err){
-//       console.log(err);
-//     }, function(){
-//       console.log("Upload Complete");
-//       uploadTask.snapshot.ref.getDownloadURL().then(function(url){
-//         console.log(url);  
-//         firebase.firestore().collection("file_data").doc(name).update({
-//           image_url: url
-//         }).then(()=>{
-//           resolve()
-//         }).catch((err)=>{
-//           reject
-//         })
-//       }).catch((err)=>{
-//         reject
-//       })
+    uploadTask.on("state_changed", function(taskSnapshot){
+      console.log(taskSnapshot);
+    }, function(err){
+      console.log(err);
+    }, function(){
+      console.log("Upload Complete");
+      uploadTask.snapshot.ref.getDownloadURL().then(function(url){
+        console.log(url);  
+        firebase.firestore().collection("file_data").doc(name).update({
+          image_url: url
+        }).then(()=>{
+          resolve()
+        }).catch((err)=>{
+          reject
+        })
+      }).catch((err)=>{
+        reject
+      })
       
-//     })
-//   })
-// }
+    })
+  })
+}
 
 // DOWNLOAD FUNCTION TO GET FILES - NOT NEEDED
 // download(name: string){
