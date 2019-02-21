@@ -88,8 +88,27 @@
     </ion-card>
   </ion-row>
   
+  
   <button padding ion-button block round outline color="dark" style="margin-top: 20px;" (click)="post()"> PAY & SUBMIT </button>
-  <button padding ion-button block round outline color="dark" style="margin-top: 20px;" (click)="getlocation()"> My location </button>
+  <button padding ion-button block round outline color="dark" style="margin-top: 20px;" (click)="go_to_receiver()"> Receiver </button>
+  <!-- <button padding ion-button block round outline color="dark" style="margin-top: 20px;" (click)="cabbie()"> Cabbie </button> -->
+  
+  <!-- RETRIEVED IMAGES -->
+  <ion-row margin class="rowStyle" *ngIf="retrieved_images.length > 0">
+    <ion-card class="round-corners">
+      <!-- <span *ngFor="let retrieved_image of retrieved_images"> -->
+        <img [src]="retrieved_image" class="round-corners">
+      <!-- </span> -->
+    </ion-card>
+  </ion-row>
 
+  <!-- CODE FOR SLIDESHOW - NOT WORKING -->
+  <!-- <hr>
+
+  <ion-row margin class="rowStyle" *ngIf="retrieved_images.length > 0">
+          <slideshow [imageUrls]="retrieved_images"></slideshow>
+  </ion-row> -->
+
+  
 
 </ion-content>

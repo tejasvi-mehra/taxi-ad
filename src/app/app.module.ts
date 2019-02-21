@@ -11,8 +11,11 @@ import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
 import { SignUpPage } from '../pages/sign-up/sign-up';
 import { FeedPage } from '../pages/feed/feed';
+import { SlideshowModule } from 'ng-simple-slideshow';
+
 
 import firebase from 'firebase';
+import { ReceiverPage } from '../pages/receiver/receiver';
 var config = {
     apiKey: "AIzaSyADjIbI3_GRS4eRHGVGFsT2hrkKvH9K06M",
     authDomain: "trialapp-1cb3d.firebaseapp.com",
@@ -32,10 +35,11 @@ timestampsInSnapshots: true
     LoginPage,
     SignUpPage,
     FeedPage,
+    ReceiverPage,
   ],
   imports: [
     BrowserModule,
-   
+    SlideshowModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -44,6 +48,7 @@ timestampsInSnapshots: true
     LoginPage,
     SignUpPage,
     FeedPage,
+    ReceiverPage,
   ],
   providers: [
     StatusBar,

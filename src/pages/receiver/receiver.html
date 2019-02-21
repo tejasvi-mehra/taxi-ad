@@ -1,0 +1,25 @@
+<!--
+  Generated template for the ReceiverPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>receiver</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <button padding ion-button block round outline color="dark" style="margin-top: 20px;" (click)="getlocation()"> Receiver </button>
+
+    <ion-slides *ngIf="retrieved_images.length > 0" autoplay="5000" loop="true" speed="3000">
+      <ion-slide *ngFor="let slide of retrieved_images" >
+        <img [src]="slide" alt="">  
+      </ion-slide>
+    </ion-slides>
+
+</ion-content>
