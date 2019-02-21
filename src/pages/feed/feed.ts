@@ -64,7 +64,7 @@ export class FeedPage {
     console.log(this.location);
     
     firebase.firestore().collection("file_data").add({
-      file_name: this.text,
+      // file_name: this.text,
       created: firebase.firestore.FieldValue.serverTimestamp(),
       owner: firebase.auth().currentUser.uid,
       owner_name: firebase.auth().currentUser.displayName,
