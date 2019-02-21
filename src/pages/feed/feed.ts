@@ -41,23 +41,23 @@ export class FeedPage {
   
   constructor(public navCtrl: NavController, public navParams: NavParams,public loadingCtrl: LoadingController, 
     public toastCtrl: ToastController, private camera: Camera, private imagePicker: ImagePicker, private geolocation: Geolocation) {
-      // this.get_all_locations().then(()=>{
-      //   console.log("Locations loaded");        
-      // });      
+      this.get_all_locations().then(()=>{
+        console.log("Locations loaded");        
+      });      
   }
 
   // Set up all locations from DB
-//   async get_all_locations(){
-//     const snapshot = await firebase.firestore().collection('locations').get()
-//     let value = snapshot.docs.map(doc => doc.data());
-//     value.forEach((val) => {
-//       val.latitude = val.point.latitude;
-//       val.longitude = val.point.longitude;
-//     });
-//     this.all_locations = value;
-//     console.log(this.all_locations);
+  async get_all_locations(){
+    const snapshot = await firebase.firestore().collection('locations').get()
+    let value = snapshot.docs.map(doc => doc.data());
+    value.forEach((val) => {
+      val.latitude = val.point.latitude;
+      val.longitude = val.point.longitude;
+    });
+    this.all_locations = value;
+    console.log(this.all_locations);
     
-//  }
+ }
 
   post()
   {
