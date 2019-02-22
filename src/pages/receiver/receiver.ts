@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import firebase from 'firebase';
 import geolib from 'geolib';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 // import { Geolocation } from '@ionic-native/geolocation'; // geolocation
 
@@ -26,10 +27,11 @@ export class ReceiverPage {
   min_end_date: string = this.startDate;
   maxDate: string = new Date(new Date().getFullYear(), new Date().getMonth() + 3, new Date().getDate()).toISOString(); // max date = 3 months from today
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private screenOrientation: ScreenOrientation) {
     this.get_all_locations().then(()=>{
       console.log("Locations loaded");        
     });
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
   }
 
     // Set up all locations from DB
@@ -45,6 +47,7 @@ export class ReceiverPage {
       
    }
   
+   
 
   // ionViewDidLoad() {
   //   console.log('ionViewDidLoad ReceiverPage');

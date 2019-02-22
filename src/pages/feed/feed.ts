@@ -94,7 +94,7 @@ export class FeedPage {
 
     firebase.auth().signOut().then(()=>{
       this.toastCtrl.create({
-        message: "You have been Logged Out",
+        message: "You have been logged out",
         duration: 3000
       }).present()
       this.navCtrl.setRoot(LoginPage);

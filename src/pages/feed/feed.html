@@ -1,19 +1,11 @@
 <ion-header hidden>
 
-  <ion-navbar color="orange-pink">
+  <ion-navbar>
     
     <ion-title>
       
       DigiRoof
- 
     </ion-title>
-
-    <ion-buttons end>
-
-      <button ion-button icon-only clear (click)="logout()">
-        <ion-icon name="log-out"></ion-icon>
-      </button>
-    </ion-buttons>
 
   </ion-navbar>
 
@@ -27,7 +19,13 @@
             <!-- TOP HEADING -->
             <h3>DigiRoof</h3>	
           </ion-col>	
+          <ion-buttons end>
+            <button ion-button icon-only clear (click)="logout()">
+              <ion-icon name="log-out" class="logoutbtn"></ion-icon>
+            </button>
+          </ion-buttons>
         </ion-row>
+   
     </div>
 
 
@@ -62,7 +60,7 @@
 
     <ion-card padding>
     <ion-item>
-      <ion-label>Location</ion-label>
+      <ion-label>Location:</ion-label>
       <ion-select required [(ngModel)]="location" cancelText="Nah" okText="Okay!">
         <ion-option *ngFor="let location of all_locations" [value]="location.value"> {{ location.name }} </ion-option>
       </ion-select>  
@@ -71,7 +69,7 @@
     
     <!-- IDEALLY THIS TIME LIST SHOULD HAVE MINIMUM OF CURRENT TIME -->
     <ion-item required>
-      <ion-label>Start at</ion-label>
+      <ion-label>Start at:</ion-label>
       <ion-datetime 
       required
       displayFormat="HH:mm  DD/MMM/YYYY" 
@@ -84,7 +82,7 @@
     
     <!-- IDEALLY THIS TIME LIST SHOULD HAVE MAX OF CURRENT TIME + 1 2 MONTHS? -->
     <ion-item required>
-      <ion-label>End at</ion-label>
+      <ion-label>End at:</ion-label>
       <ion-datetime 
       required
       displayFormat="HH:mm  DD/MMM/YYYY" 

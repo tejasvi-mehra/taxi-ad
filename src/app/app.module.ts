@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { Camera } from '@ionic-native/camera';//import in app.module.ts
 import { ImagePicker } from '@ionic-native/image-picker'; //image picker
 import { Geolocation } from '@ionic-native/geolocation'; // geolocation
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
@@ -49,6 +50,7 @@ timestampsInSnapshots: true
     SignUpPage,
     FeedPage,
     ReceiverPage,
+    
   ],
   providers: [
     StatusBar,
@@ -57,6 +59,7 @@ timestampsInSnapshots: true
     Camera,
     ImagePicker,
     Geolocation,
+    ScreenOrientation,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
