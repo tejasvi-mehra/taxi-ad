@@ -1,7 +1,12 @@
-<ion-header>
+<ion-header hidden>
 
-  <ion-navbar color="danger">
-    <ion-title>DigiRoof</ion-title>
+  <ion-navbar color="orange-pink">
+    
+    <ion-title>
+      
+      DigiRoof
+ 
+    </ion-title>
 
     <ion-buttons end>
 
@@ -15,13 +20,24 @@
 </ion-header>
 
 <ion-content>
-  <ion-row class="rowStyle" margin>
-    <button ion-button icon-only color="danger" clear (click)="addPhoto()">
-      <ion-icon name="images"></ion-icon>
-    </button>
+
+    <div text-center>
+        <ion-row class="TopBar">
+          <ion-col>
+            <!-- TOP HEADING -->
+            <h3>DigiRoof</h3>	
+          </ion-col>	
+        </ion-row>
+    </div>
+
+
+  <ion-card class="setcard" padding>
+  <ion-row margin>
+    <button padding ion-button block round style="margin-top: 10px;" (click)="addPhoto()" class="uploadButton">
+      Upload-Image <ion-icon name="images" color="danger" hidden></ion-icon></button>
 <!-- IDEALLY FILE NAME IS AUTOSET -->
-    <ion-input required type="text" placeholder="Enter File Name" [(ngModel)]="text"></ion-input>
   </ion-row>
+
 
 <!-- Extra button for upload -->
     <!-- <button ion-button icon-only color="danger" clear (click)="post()">
@@ -44,19 +60,21 @@
       </ion-select>
     </ion-item> -->
 
+    <ion-card padding>
     <ion-item>
-      <ion-label>Locations</ion-label>
+      <ion-label>Location</ion-label>
       <ion-select required [(ngModel)]="location" cancelText="Nah" okText="Okay!">
         <ion-option *ngFor="let location of all_locations" [value]="location.value"> {{ location.name }} </ion-option>
       </ion-select>  
     </ion-item>
     
+    
     <!-- IDEALLY THIS TIME LIST SHOULD HAVE MINIMUM OF CURRENT TIME -->
     <ion-item required>
-      <ion-label>Start Date</ion-label>
+      <ion-label>Start at</ion-label>
       <ion-datetime 
       required
-      displayFormat=" YYYY/MMM/DD  HH:mm" 
+      displayFormat="HH:mm  DD/MMM/YYYY" 
       pickerFormat="DD-MMM-YYYY T   HH:mm" 
       minuteValues="00,5,10,15,20,25,30,35,40,45,50,55"
       [(ngModel)]="startDate"
@@ -66,16 +84,18 @@
     
     <!-- IDEALLY THIS TIME LIST SHOULD HAVE MAX OF CURRENT TIME + 1 2 MONTHS? -->
     <ion-item required>
-      <ion-label>End Date</ion-label>
+      <ion-label>End at</ion-label>
       <ion-datetime 
       required
-      displayFormat=" YYYY/MMM/DD  HH:mm" 
+      displayFormat="HH:mm  DD/MMM/YYYY" 
       pickerFormat="DD-MMM-YYYY T   HH:mm" 
       minuteValues="00,5,10,15,20,25,30,35,40,45,50,55"
       [(ngModel)]="endDate"
       [min]="startDate"
       [max]="maxDate"></ion-datetime>
     </ion-item>
+  
+</ion-card>
 
     <!-- HAS TO CHECK IF ATLEAST 1 LOC & TIMES IS ENTERED BEFORE POST -->
 
@@ -87,28 +107,11 @@
       <img [src]="image" class="round-corners">
     </ion-card>
   </ion-row>
-  
-  
-  <button padding ion-button block round outline color="dark" style="margin-top: 20px;" (click)="post()"> PAY & SUBMIT </button>
-  <button padding ion-button block round outline color="dark" style="margin-top: 20px;" (click)="go_to_receiver()"> Receiver </button>
-  <!-- <button padding ion-button block round outline color="dark" style="margin-top: 20px;" (click)="cabbie()"> Cabbie </button> -->
-  
-  <!-- RETRIEVED IMAGES -->
-  <ion-row margin class="rowStyle" *ngIf="retrieved_images.length > 0">
-    <ion-card class="round-corners">
-      <!-- <span *ngFor="let retrieved_image of retrieved_images"> -->
-        <img [src]="retrieved_image" class="round-corners">
-      <!-- </span> -->
-    </ion-card>
-  </ion-row>
 
-  <!-- CODE FOR SLIDESHOW - NOT WORKING -->
-  <!-- <hr>
-
-  <ion-row margin class="rowStyle" *ngIf="retrieved_images.length > 0">
-          <slideshow [imageUrls]="retrieved_images"></slideshow>
-  </ion-row> -->
-
+</ion-card> 
   
-
+<ion-content padding>
+  <button padding ion-button block round style="margin-top: 10px;" (click)="post()" class="uploadButton"> Checkout </button>
+  <button padding ion-button block round style="margin-top: 10px;" (click)="go_to_receiver()" class="uploadButton"> Receiver </button>
+</ion-content>
 </ion-content>

@@ -1,14 +1,30 @@
 page-feed {
 
-    .rowStyle{
 
-        border: solid map-get($colors, danger)1px;
-        border-radius: 30px;
-        margin-top: 15px;
-
-        ion-input{
-            margin-top: 5px;
+        .TopBar{
+            background-image: url("…/../../../assets/imgs/bckground.png") ;
+	        -webkit-background-size: cover;
+  	        -moz-background-size: cover;
+  	        -o-background-size: cover;
+        	background-size: cover;
+            color: #ffffff;
+            font-family: Monoton;
+        
         }
+    .setcard{
+
+        align-content: center;
+
+    }
+    .uploadButton{
+        align-content: center;
+        background-image: url("…/../../../assets/imgs/bckground.png") ;
+        -webkit-background-size: cover;
+          -moz-background-size: cover;
+          -o-background-size: cover;
+        background-size: cover;
+        color: #ffffff;
+        font-family: Monoton;   
     }
     .bottom-bar{
         background-color: map-get($colors, semi-light)
