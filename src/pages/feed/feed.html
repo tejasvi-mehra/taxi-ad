@@ -1,11 +1,17 @@
-<ion-header hidden>
+<ion-header >
 
   <ion-navbar>
     
-    <ion-title>
-      
-      DigiRoof
-    </ion-title>
+    <ion-row class="TopBar">
+          
+      <!-- TOP HEADING -->
+      <ion-title>DigiRoof</ion-title>	
+      <button ion-button icon-only clear (click)="logout()" end>
+        <ion-icon name="log-out" class="logoutbtn"></ion-icon>
+      </button>
+    
+ 
+  </ion-row>
 
   </ion-navbar>
 
@@ -13,20 +19,10 @@
 
 <ion-content>
 
-    <div text-center>
-        <ion-row class="TopBar">
-          <ion-col>
-            <!-- TOP HEADING -->
-            <h3>DigiRoof</h3>	
-          </ion-col>	
-          <ion-buttons end>
-            <button ion-button icon-only clear (click)="logout()">
-              <ion-icon name="log-out" class="logoutbtn"></ion-icon>
-            </button>
-          </ion-buttons>
-        </ion-row>
+    
+        
    
-    </div>
+ 
 
 
   <ion-card class="setcard" padding>
