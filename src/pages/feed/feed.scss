@@ -7,8 +7,19 @@ page-feed {
                  background-size:cover;
                  text-align: center;
             }
+
+            ion-title{
+                text-align: center;
+            }
+
+           
+           
         }
     }  
+
+    [text-color="my-custom-color"] {
+        color: white;
+    }
 
         .TopBar{
             background-image: url("…/../../../assets/imgs/bckground.png") ;

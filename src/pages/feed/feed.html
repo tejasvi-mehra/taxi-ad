@@ -1,11 +1,19 @@
 <ion-header >
 
-  <ion-navbar>
+  <ion-navbar text-center>
     
     <ion-row class="TopBar">
           
       <!-- TOP HEADING -->
-      <ion-title>DigiRoof</ion-title>	
+      	
+      <button ion-button icon-only clear (click)="logout()" end>
+          <ion-icon name="side-menu"></ion-icon> 
+          <!-- This is currently a blank icon to keep the text in the center -->
+        </button>
+
+      <ion-title>
+          <span text-color="my-custom-color"> DigiRoof </span>
+      </ion-title>	
       <button ion-button icon-only clear (click)="logout()" end>
         <ion-icon name="log-out" class="logoutbtn"></ion-icon>
       </button>
