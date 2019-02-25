@@ -3,7 +3,7 @@ import { NavController, ToastController } from 'ionic-angular';
 import { SignUpPage } from '../sign-up/sign-up'
 import firebase from 'firebase'
 import { FeedPage } from '../feed/feed';
-
+import { ReceiverPage } from '../receiver/receiver';
 import { Injectable } from '@angular/core';
 
 
@@ -36,7 +36,13 @@ export class LoginPage {
   	message: "Welcome " + user.user.displayName,
   	duration: 3000
   }).present();
-  this.navCtrl.setRoot(FeedPage)
+  
+    if (user.user.displayName == "TaxiDriver") {
+      this.navCtrl.setRoot(ReceiverPage);      
+    }
+    else {
+      this.navCtrl.setRoot(FeedPage);
+    }
 
 
   }).catch( (err) => {console.log(err)
