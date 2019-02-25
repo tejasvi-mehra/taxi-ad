@@ -33,7 +33,7 @@ export class ReceiverPage {
       console.log("Locations loaded");
       this.subscribe_location();
     });
-    // this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
   }
 
     // Set up all locations from DB
