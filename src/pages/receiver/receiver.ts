@@ -21,7 +21,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 })
 export class ReceiverPage {
   retrieved_images: string[] = [];
-  TIMEOUT_INTERVAL:number = 1000 * 10 ;
+  TIMEOUT_INTERVAL:number = 1000 * 20 ;
   all_locations: any;
   today: string = new Date().toISOString(); // minimum date = current date
   startDate: string = new Date().toISOString();
@@ -33,7 +33,7 @@ export class ReceiverPage {
       console.log("Locations loaded");
       this.subscribe_location();
     });
-    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
+    // this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
   }
 
     // Set up all locations from DB
@@ -77,9 +77,13 @@ export class ReceiverPage {
       // console.log(typeof this.all_locations[0].point);
       let latitude = resp.coords.latitude;
       let longitude = resp.coords.longitude;
+      console.log("mylocation",latitude, longitude);
+      
       let result: any;
       result = geolib.findNearest({ latitude: latitude, longitude: longitude }, this.all_locations);
-      console.log("Closest to:");        
+      console.log(this.all_locations);
+      console.log("Closest to:");
+      
       console.log(this.all_locations[result.key]);
       console.log("here 1")
       let current_time = new Date();
@@ -115,6 +119,9 @@ export class ReceiverPage {
       //   val.longitude = val.point.longitude;
       // });
       // this.all_locations = value;
+      
+    }).catch(e => {
+      console.log(e);
       
     })   
   }

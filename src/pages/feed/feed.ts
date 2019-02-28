@@ -129,9 +129,9 @@ launchCamera(){
     encodingType: this.camera.EncodingType.PNG,
     mediaType: this.camera.MediaType.PICTURE,
     correctOrientation: true,
-    targetHeight: 512,
-    targetWidth: 512,
-    allowEdit: true,
+      // targetHeight: 1080,
+      // targetWidth: 2220,
+    // allowEdit: true,
     // sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
   }
   this.camera.getPicture(options).then((base64Image)=>{
